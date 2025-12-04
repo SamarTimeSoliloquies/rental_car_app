@@ -123,21 +123,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="admin.cpp" />
     <ClCompile Include="bike.cpp" />
     <ClCompile Include="car.cpp" />
+    <ClCompile Include="customer.cpp" />
     <ClCompile Include="filemanager.cpp" />
     <ClCompile Include="login.cpp" />
     <ClCompile Include="loginmanager.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="person.cpp" />
     <ClCompile Include="rental.cpp" />
     <ClCompile Include="van.cpp" />
     <ClCompile Include="vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="admin.h" />
     <ClInclude Include="bike.h" />
     <ClInclude Include="car.h" />
+    <ClInclude Include="customer.h" />
     <ClInclude Include="filemanager.h" />
     <ClInclude Include="login.h" />
     <ClInclude Include="loginmanager.h" />
+    <ClInclude Include="person.h" />
     <ClInclude Include="rental.h" />
     <ClInclude Include="van.h" />
     <ClInclude Include="vehicle.h" />
