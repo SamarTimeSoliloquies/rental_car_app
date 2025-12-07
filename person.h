@@ -16,14 +16,12 @@ public:
         const string& cnic = "", const string& phone = "",
         const string& email = "");
 
-    // Getters
     const string& getName() const { return name; }
     int getAge() const { return age; }
     const string& getCnic() const { return cnic; }
     const string& getPhone() const { return phone; }
     const string& getEmail() const { return email; }
 
-    // Setters
     void setName(const string& n) { name = n; }
     void setAge(int a) { age = a; }
     void setCnic(const string& c) { cnic = c; }

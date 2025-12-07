@@ -12,7 +12,7 @@ private:
     static int nextCustomerId;
 
 public:
-    Customer(const string& name = "", int age = 0,const string& cnic = "", const string& phone = "",const string& email = "");
+    Customer(const string& name = "", int age = 0, const string& cnic = "", const string& phone = "", const string& email = "");
 
     int getCustomerId() const { return customerId; }
     void viewProfile() const;

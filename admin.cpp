@@ -1,8 +1,7 @@
-﻿// Admin.cpp
 #include "Admin.h"
-#include "Rental.h"   // ← This was missing → caused "identifier RentalManager undefined"
-#include "FileManager.h"     // needed for loadVehicles()
-#include "Car.h"             // needed for dynamic_cast / specific info (optional but nice)
+#include "Rental.h"
+#include "FileManager.h"
+#include "Car.h"
 #include "Van.h"
 #include "Bike.h"
 #include "loginmanager.h"
@@ -73,9 +72,8 @@ void Admin::viewCustomerProfile(int customerId) const {
 
             std::cout << "\n=== CUSTOMER PROFILE ===\n";
             std::cout << "ID    : " << idStr << "\n";
-            std::cout << line.substr(line.find(',') + 1) << "\n";  // rest of the data
+            std::cout << line.substr(line.find(',') + 1) << "\n";
 
-            // Show customer's current rentals
             auto records = FileManager::loadRentalRecords();
             bool hasRental = false;
             for (const auto& r : records) {
@@ -124,7 +122,7 @@ void Admin::viewAllVehicles() const {
 }
 
 void Admin::addNewVehicle() {
-    RentalManager rm;  // we use RentalManager's add methods
+    RentalManager rm;
 
     int choice;
     std::string brand, model, typeBike;

@@ -1,26 +1,24 @@
-﻿// main.cpp (FULLY FIXED - 100% COMPILES & RUNS PERFECTLY)
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
 #include <string>
-#include <conio.h>      // for _getch()
-#include <windows.h>    // for system("cls")
+#include <conio.h>
+#include <windows.h>
 
-#include "login.h"    // ← fixed header name
+#include "login.h"
 #include "loginmanager.h"
 #include "Customer.h"
 #include "Admin.h"
 #include "Vehicle.h"
-#include "Car.h"            // ← needed for dynamic_cast<Car*>
-#include "Van.h"            // ← needed for dynamic_cast<Van*>
-#include "Bike.h"           // ← needed for dynamic_cast<Bike*>
-#include "Rental.h"   // ← fixes "incomplete type RentalRecord"
+#include "Car.h"
+#include "Van.h"
+#include "Bike.h"
+#include "Rental.h"
 #include "FileManager.h"
 
 using namespace std;
 
-// Forward declarations
 void adminMenu(int adminId);
 void customerMenu(int customerId);
 void registerNewCustomer();
@@ -29,7 +27,7 @@ void displayAllVehicles();
 
 int main()
 {
-    Customer::loadNextId();  // load customer ID counter
+    Customer::loadNextId();
 
     system("cls");
     cout << "=====================================\n";
@@ -45,7 +43,7 @@ int main()
 
         char choice;
         cin >> choice;
-        cin.ignore();  // safe
+        cin.ignore();
 
         if (choice == '3') break;
 
@@ -86,7 +84,6 @@ int main()
             }
             else
             {
-                // Validate customer exists
                 ifstream file("customers.txt");
                 bool found = false;
                 string line;
@@ -120,9 +117,6 @@ int main()
     return 0;
 }
 
-// ==================================================================
-// Register New Customer
-// ==================================================================
 void registerNewCustomer()
 {
     system("cls");
@@ -133,7 +127,7 @@ void registerNewCustomer()
 
     cout << "Full Name     : ";
     getline(cin, name);
-    cout << "Age           : "; 
+    cout << "Age           : ";
     cin >> age;
     cin.ignore();
     cout << "CNIC          : ";
@@ -156,9 +150,6 @@ void registerNewCustomer()
     _getch();
 }
 
-// ==================================================================
-// Display Available Vehicles (with proper specs)
-// ==================================================================
 void displayAvailableVehicles()
 {
     auto vehicles = FileManager::loadVehicles();
@@ -207,9 +198,6 @@ void displayAvailableVehicles()
     _getch();
 }
 
-// ==================================================================
-// Display All Vehicles
-// ==================================================================
 void displayAllVehicles()
 {
     auto vehicles = FileManager::loadVehicles();
@@ -233,9 +221,6 @@ void displayAllVehicles()
     _getch();
 }
 
-// ==================================================================
-// Customer Menu
-// ==================================================================
 void customerMenu(int customerId)
 {
     RentalManager rm;
@@ -326,7 +311,7 @@ void customerMenu(int customerId)
         case '4':
         {
             auto records = FileManager::loadRentalRecords();
-            auto vehicles = FileManager::loadVehicles();  // load once
+            auto vehicles = FileManager::loadVehicles();
 
             cout << "\nYour Current Rentals:\n";
             bool found = false;
@@ -370,12 +355,9 @@ void customerMenu(int customerId)
     }
 }
 
-// ==================================================================
-// Admin Menu (FIXED - now calls Admin::addNewVehicle())
-// ==================================================================
 void adminMenu(int adminId)
 {
-    Admin admin(adminId, "", "", "", 0, "", "", "");  // we only need ID for display
+    Admin admin(adminId, "", "", "", 0, "", "", "");
     RentalManager rm;
 
     while (true)
