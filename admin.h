@@ -1,21 +1,26 @@
-#ifndef admin_h
-#define admin_h
-#include "person.h"
+#pragma once
+#include "Person.h"
 #include <string>
-using namespace std;
+class RentalManager;
 
-class Admin : public Person
-{
+class Admin : public Person {
 private:
-    string username;
-    string password;
+    int adminId;
+    std::string username;
+    std::string password;
 
 public:
-    Admin();
-    Admin(int adminId, const string& adminName, const string& adminUsername, const string& adminPassword);
+    Admin(int id = 0, const std::string& username = "", const std::string& password = "",
+        const std::string& name = "", int age = 0,
+        const std::string& cnic = "", const std::string& phone = "", const std::string& email = "");
 
-    const string& getUsername() const;
-    const string& getPassword() const;
+    int getAdminId() const { return adminId; }
+    const std::string& getUsername() const { return username; }
+
+    void rentVehicle(int customerId, int vehicleId, int days);
+    void returnVehicle(int vehicleId);
+    void viewCustomers() const;
+    void viewCustomerProfile(int customerId) const;
+    void viewAllVehicles() const;
+    void addNewVehicle();
 };
-
-#endif#pragma once

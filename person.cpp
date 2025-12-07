@@ -1,28 +1,13 @@
-#include "person.h"
+﻿#include "Person.h"
+#include <iostream>
 
-Person::Person()
-{
-    id = 0;
-    name = "";
+Person::Person(const string& name, int age, const string& cnic, const string& phone,const string& email): name(name), age(age), cnic(cnic), phone(phone), email(email) {
 }
 
-Person::Person(int personId, const string& personName)
-{
-    id = personId;
-    name = personName;
-}
-
-Person::~Person()
-{
-
-}
-
-int Person::getId() const
-{
-    return id;
-}
-
-const string& Person::getName() const
-{
-    return name;
+void Person::displayInfo() const {
+    cout << "Name   : " << name << endl;
+    cout << "Age    : " << age << endl;
+    cout << "CNIC   : " << cnic << endl;
+    cout << "Phone  : " << phone << endl;
+    cout << "Email  : " << email << endl;
 }

@@ -2,24 +2,24 @@
 #define customer_h
 #include "person.h"
 #include <string>
+#include <vector>+
 using namespace std;
 
-class Customer : public Person
-{
+
+class Customer : public Person {
 private:
-    string cnic;
-    string password;
+    int customerId;
+    static int nextCustomerId;
 
 public:
-    Customer();
-    Customer(int customerId, const string& customerName, const string& customerCnic, const string& customerPassword);
+    Customer(const string& name = "", int age = 0,const string& cnic = "", const string& phone = "",const string& email = "");
 
-    const string& getCnic() const;
-    const string& getPassword() const;
+    int getCustomerId() const { return customerId; }
+    void viewProfile() const;
+    void viewRentedVehicles() const;
 
-    static int registerCustomer(const string& name, const string& cnic, const string& password);
-    static int loginCustomer(const string& cnic, const string& password);
-    static bool cnicExists(const string& cnic);
+    static void loadNextId();
+    static void saveNextId();
 };
 
 #endif
