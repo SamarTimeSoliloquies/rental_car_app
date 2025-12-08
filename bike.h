@@ -1,19 +1,18 @@
-#ifndef bike_h
-#define bike_h
-#include "vehicle.h"
+// Bike.h
+#pragma once
+#include "Vehicle.h"
 
 class Bike : public Vehicle {
 private:
     int engineCC;
-    string typeOfBike;
+    std::string typeOfBike;
 
 public:
-    Bike();
-    Bike(const string& brand, const string& model, float rentPerDay,int engineCC, const string& typeOfBike);
+    Bike(const std::string& brand, const std::string& model, float rentPerDay,
+        int cc, const std::string& t);
 
-    int getEngineCC() const;
-    const string& getTypeOfBike() const;
+    int getEngineCC() const { return engineCC; }
+    const std::string& getTypeOfBike() const { return typeOfBike; }
 
-    void saveSpecific(ostream& os) const override;
+    void saveSpecific(std::ostream& os) const override;
 };
-#endif

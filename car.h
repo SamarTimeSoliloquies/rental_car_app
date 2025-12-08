@@ -1,6 +1,6 @@
-#ifndef car_h
-#define car_h
-#include<string>
+﻿// Car.h
+#pragma once
+#include "Vehicle.h"
 
 class Car : public Vehicle {
 private:
@@ -8,12 +8,11 @@ private:
     int seatingCapacity;
 
 public:
-    Car();
-    Car(const string& brand, const string& model, float rentPerDay,int numDoors, int seatingCapacity);
+    Car(const std::string& brand, const std::string& model, float rentPerDay,
+        int doors, int seats);
 
-    int getNumDoors() const;
-    int getSeatingCapacity() const;
+    int getNumDoors() const { return numDoors; }
+    int getSeatingCapacity() const { return seatingCapacity; }
 
-    void saveSpecific(ostream& os) const override;
+    void saveSpecific(std::ostream& os) const override;  // ← override keyword correct
 };
-#endif

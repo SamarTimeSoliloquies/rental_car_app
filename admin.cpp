@@ -1,7 +1,7 @@
-#include "Admin.h"
-#include "Rental.h"
-#include "FileManager.h"
-#include "Car.h"
+﻿#include "Admin.h"
+#include "Rental.h"   
+#include "FileManager.h"     
+#include "Car.h"             
 #include "Van.h"
 #include "Bike.h"
 #include "loginmanager.h"
@@ -9,9 +9,11 @@
 #include <fstream>
 #include <sstream>
 
-Admin::Admin(int id, const std::string& u, const std::string& p,
-    const std::string& n, int a, const std::string& c,
-    const std::string& ph, const std::string& e)
+using namespace std;
+
+Admin::Admin(int id, const string& u, const string& p,
+    const string& n, int a, const string& c,
+    const string& ph, const string& e)
     : Person(n, a, c, ph, e), adminId(id), username(u), password(p) {
 }
 
@@ -26,28 +28,28 @@ void Admin::returnVehicle(int vehicleId) {
 }
 
 void Admin::viewCustomers() const {
-    std::cout << "\n=== ALL REGISTERED CUSTOMERS ===\n";
-    std::ifstream file("customers.txt");
+    cout << "\n=== ALL REGISTERED CUSTOMERS ===\n";
+    ifstream file("customers.txt");
     if (!file.is_open() || file.peek() == EOF) {
-        std::cout << "No customers registered yet.\n";
+        cout << "No customers registered yet.\n";
         return;
     }
 
-    std::cout << "ID\tName\t\tAge\tCNIC\t\tPhone\t\tEmail\n";
-    std::cout << "--------------------------------------------------------------------------------\n";
+    cout << "ID\tName\t\tAge\tCNIC\t\tPhone\t\tEmail\n";
+    cout << "--------------------------------------------------------------------------------\n";
 
-    std::string line;
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string token;
-        std::vector<std::string> parts;
+    string line;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string token;
+        vector<string> parts;
 
-        while (std::getline(iss, token, ',')) {
+        while (getline(iss, token, ',')) {
             parts.push_back(token);
         }
 
         if (parts.size() >= 6) {
-            std::cout << parts[0] << "\t"
+           cout << parts[0] << "\t"
                 << parts[1].substr(0, 15) << "\t"
                 << parts[2] << "\t"
                 << parts[3] << "\t"
@@ -55,37 +57,38 @@ void Admin::viewCustomers() const {
                 << parts[5] << "\n";
         }
     }
-    std::cout << "--------------------------------------------------------------------------------\n";
+    cout << "--------------------------------------------------------------------------------\n";
 }
 
 void Admin::viewCustomerProfile(int customerId) const {
-    std::ifstream file("customers.txt");
-    std::string line;
+    ifstream file("customers.txt");
+    string line;
     bool found = false;
 
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string idStr;
-        std::getline(iss, idStr, ',');
-        if (std::stoi(idStr) == customerId) {
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string idStr;
+        getline(iss, idStr, ',');
+        if (stoi(idStr) == customerId) {
             found = true;
 
-            std::cout << "\n=== CUSTOMER PROFILE ===\n";
-            std::cout << "ID    : " << idStr << "\n";
-            std::cout << line.substr(line.find(',') + 1) << "\n";
+            cout << "\n=== CUSTOMER PROFILE ===\n";
+            cout << "ID    : " << idStr << "\n";
+            cout << line.substr(line.find(',') + 1) << "\n";  
 
+            
             auto records = FileManager::loadRentalRecords();
             bool hasRental = false;
             for (const auto& r : records) {
                 if (r.getCustomerId() == customerId && r.getStatus() == "Rented") {
                     if (!hasRental) {
-                        std::cout << "\nCurrently Rented Vehicles:\n";
+                        cout << "\nCurrently Rented Vehicles:\n";
                         hasRental = true;
                     }
                     auto vehicles = FileManager::loadVehicles();
                     for (const auto v : vehicles) {
                         if (v->getVehicleId() == r.getVehicleId()) {
-                            std::cout << "- " << v->getType() << " " << v->getBrand() << " " << v->getModel()
+                           cout << "- " << v->getType() << " " << v->getBrand() << " " << v->getModel()
                                 << " | Days: " << r.getRentDays()
                                 << " | Total: Rs." << r.getTotalAmount() << "\n";
                             break;
@@ -94,22 +97,22 @@ void Admin::viewCustomerProfile(int customerId) const {
                     for (auto v : vehicles) delete v;
                 }
             }
-            if (!hasRental) std::cout << "\nNo active rentals.\n";
+            if (!hasRental) cout << "\nNo active rentals.\n";
             break;
         }
     }
 
-    if (!found) std::cout << "Customer with ID " << customerId << " not found!\n";
+    if (!found) cout << "Customer with ID " << customerId << " not found!\n";
 }
 
 void Admin::viewAllVehicles() const {
     auto vehicles = FileManager::loadVehicles();
-    std::cout << "\n=== ALL VEHICLES IN SYSTEM ===\n";
-    std::cout << "ID\tType\tBrand\t\tModel\t\tRent/Day\tStatus\n";
-    std::cout << "-------------------------------------------------------------------------\n";
+    cout << "\n=== ALL VEHICLES IN SYSTEM ===\n";
+    cout << "ID\tType\tBrand\t\tModel\t\tRent/Day\tStatus\n";
+    cout << "-------------------------------------------------------------------------\n";
 
     for (const auto v : vehicles) {
-        std::cout << v->getVehicleId() << "\t"
+       cout << v->getVehicleId() << "\t"
             << v->getType() << "\t"
             << v->getBrand() << "\t\t"
             << v->getModel() << "\t\t"
@@ -117,57 +120,57 @@ void Admin::viewAllVehicles() const {
             << (v->getAvailability() ? "Available" : "Rented") << "\n";
     }
 
-    std::cout << "-------------------------------------------------------------------------\n";
+    cout << "-------------------------------------------------------------------------\n";
     for (auto v : vehicles) delete v;
 }
 
 void Admin::addNewVehicle() {
-    RentalManager rm;
+    RentalManager rm;  
 
     int choice;
-    std::string brand, model, typeBike;
+    string brand, model, typeBike;
     float rent, cargo;
     int doors, seats, cc;
 
-    std::cout << "\n=== ADD NEW VEHICLE ===\n";
-    std::cout << "1. Car\n2. Van\n3. Bike\nChoice: ";
-    std::cin >> choice;
-    std::cin.ignore();
+    cout << "\n=== ADD NEW VEHICLE ===\n";
+    cout << "1. Car\n2. Van\n3. Bike\nChoice: ";
+    cin >> choice;
+    cin.ignore();
 
-    std::cout << "Brand: ";
-    std::getline(std::cin, brand);
-    std::cout << "Model: ";
-    std::getline(std::cin, model);
-    std::cout << "Rent per day (Rs): ";
-    std::cin >> rent;
-    std::cin.ignore();
+    cout << "Brand: ";
+    getline(cin, brand);
+    cout << "Model: ";
+    getline(cin, model);
+    cout << "Rent per day (Rs): ";
+    cin >> rent;
+    cin.ignore();
 
     if (choice == 1) {
-        std::cout << "Number of doors: ";
-        std::cin >> doors;
-        std::cout << "Seating capacity: ";
-        std::cin >> seats;
+        cout << "Number of doors: ";
+        cin >> doors;
+        cout << "Seating capacity: ";
+        cin >> seats;
         rm.addCar(brand, model, rent, doors, seats);
     }
     else if (choice == 2) {
-        std::cout << "Cargo capacity (kg): ";
-        std::cin >> cargo;
-        std::cout << "Seating capacity: ";
-        std::cin >> seats;
+        cout << "Cargo capacity (kg): ";
+        cin >> cargo;
+        cout << "Seating capacity: ";
+        cin >> seats;
         rm.addVan(brand, model, rent, cargo, seats);
     }
     else if (choice == 3) {
-        std::cout << "Engine CC: ";
-        std::cin >> cc;
-        std::cout << "Type (Sport/Cruiser/etc): ";
-        std::cin.ignore();
-        std::getline(std::cin, typeBike);
+        cout << "Engine CC: ";
+        cin >> cc;
+        cout << "Type (Sport/Cruiser/etc): ";
+        cin.ignore();
+        getline(cin, typeBike);
         rm.addBike(brand, model, rent, cc, typeBike);
     }
     else {
-        std::cout << "Invalid choice!\n";
+        cout << "Invalid choice!\n";
         return;
     }
 
-    std::cout << "Vehicle added successfully!\n";
+    cout << "Vehicle added successfully!\n";
 }

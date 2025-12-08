@@ -82,7 +82,8 @@ RentalRecord RentalManager::createRentalRecord(int customerId, int vehicleId, in
     return RentalRecord(customerId, vehicleId, days, bill);
 }
 
-void RentalManager::rentVehicle(int customerId, int vehicleId, int days) {
+void RentalManager::rentVehicle(int customerId, int vehicleId, int days)
+{
     auto vehicles = FileManager::loadVehicles();
 
     Vehicle* target = nullptr;
@@ -99,11 +100,20 @@ void RentalManager::rentVehicle(int customerId, int vehicleId, int days) {
         return;
     }
 
+    // Store needed data BEFORE deleting
+    std::string vehType = target->getType();
+    std::string vehBrand = target->getBrand();
+    std::string vehModel = target->getModel();
+    float rentPerDay = target->getRentPerDay();
+
     target->setAvailability(false);
     FileManager::saveVehicles(vehicles);
-    for (auto v : vehicles) delete v;  // cleanup
 
-    RentalRecord newRecord(customerId, vehicleId, days, target->getRentPerDay() * days);
+    // NOW safe to delete
+    for (auto v : vehicles) delete v;
+
+    float totalAmount = rentPerDay * days;
+    RentalRecord newRecord(customerId, vehicleId, days, totalAmount);
     newRecord.setRecordId(RentalRecord::generateNextRecordId());
 
     auto records = FileManager::loadRentalRecords();
@@ -111,10 +121,13 @@ void RentalManager::rentVehicle(int customerId, int vehicleId, int days) {
     FileManager::saveRentalRecords(records);
 
     std::string msg = "Customer " + std::to_string(customerId) +
-        " rented " + target->getType() + " " + target->getBrand() + " " + target->getModel() +
+        " rented " + vehType + " " + vehBrand + " " + vehModel +
         " (ID: " + std::to_string(vehicleId) + ") for " + std::to_string(days) +
-        " days. Total: " + std::to_string(newRecord.getTotalAmount());
+        " days. Total: Rs." + std::to_string(totalAmount);
+
     FileManager::logRental(msg);
+
+    std::cout << "\nVehicle rented successfully!\n";
 }
 
 void RentalManager::returnVehicle(int vehicleId) {

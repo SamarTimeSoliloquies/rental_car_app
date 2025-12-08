@@ -1,6 +1,6 @@
-#ifndef van_h
-#define van_h
-#include "vehicle.h"
+// Van.h
+#pragma once
+#include "Vehicle.h"
 
 class Van : public Vehicle {
 private:
@@ -8,12 +8,11 @@ private:
     int seatingCapacity;
 
 public:
-    Van();
-    Van(const string& brand, const string& model, float rentPerDay,float cargoCapacity, int seatingCapacity);
+    Van(const std::string& brand, const std::string& model, float rentPerDay,
+        float cargo, int seats);
 
-    float getCargoCapacity() const;
-    int getSeatingCapacity() const;
+    float getCargoCapacity() const { return cargoCapacity; }
+    int getSeatingCapacity() const { return seatingCapacity; }
 
-    void saveSpecific(ostream& os) const override;
+    void saveSpecific(std::ostream& os) const override;
 };
-#endif

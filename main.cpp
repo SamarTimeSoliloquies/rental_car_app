@@ -1,23 +1,24 @@
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
 #include <string>
-#include <conio.h>
-#include <windows.h>
+#include <conio.h>      
+#include <windows.h>    
 
-#include "login.h"
+#include "login.h"    
 #include "loginmanager.h"
 #include "Customer.h"
 #include "Admin.h"
 #include "Vehicle.h"
-#include "Car.h"
-#include "Van.h"
-#include "Bike.h"
-#include "Rental.h"
+#include "Car.h"           
+#include "Van.h"            
+#include "Bike.h"          
+#include "Rental.h"   
 #include "FileManager.h"
 
 using namespace std;
+
 
 void adminMenu(int adminId);
 void customerMenu(int customerId);
@@ -27,7 +28,7 @@ void displayAllVehicles();
 
 int main()
 {
-    Customer::loadNextId();
+    Customer::loadNextId(); 
 
     system("cls");
     cout << "=====================================\n";
@@ -43,7 +44,7 @@ int main()
 
         char choice;
         cin >> choice;
-        cin.ignore();
+        cin.ignore();  
 
         if (choice == '3') break;
 
@@ -117,6 +118,7 @@ int main()
     return 0;
 }
 
+
 void registerNewCustomer()
 {
     system("cls");
@@ -127,7 +129,7 @@ void registerNewCustomer()
 
     cout << "Full Name     : ";
     getline(cin, name);
-    cout << "Age           : ";
+    cout << "Age           : "; 
     cin >> age;
     cin.ignore();
     cout << "CNIC          : ";
@@ -149,6 +151,7 @@ void registerNewCustomer()
     cout << "Please remember it for login.\n";
     _getch();
 }
+
 
 void displayAvailableVehicles()
 {
@@ -198,6 +201,7 @@ void displayAvailableVehicles()
     _getch();
 }
 
+
 void displayAllVehicles()
 {
     auto vehicles = FileManager::loadVehicles();
@@ -220,6 +224,7 @@ void displayAllVehicles()
     for (auto v : vehicles) delete v;
     _getch();
 }
+
 
 void customerMenu(int customerId)
 {
@@ -311,7 +316,7 @@ void customerMenu(int customerId)
         case '4':
         {
             auto records = FileManager::loadRentalRecords();
-            auto vehicles = FileManager::loadVehicles();
+            auto vehicles = FileManager::loadVehicles();  
 
             cout << "\nYour Current Rentals:\n";
             bool found = false;
@@ -355,9 +360,10 @@ void customerMenu(int customerId)
     }
 }
 
+
 void adminMenu(int adminId)
 {
-    Admin admin(adminId, "", "", "", 0, "", "", "");
+    Admin admin(adminId, "", "", "", 0, "", "", "");  
     RentalManager rm;
 
     while (true)

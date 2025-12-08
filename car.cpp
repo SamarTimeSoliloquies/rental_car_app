@@ -1,20 +1,14 @@
-#include "car.h"
-#include <fstream>
+// Car.cpp
+#include "Car.h"
 
-Car::Car() {
-    numDoors = 0;
-    seatingCapacity = 0;
-}
-Car::Car(const string& brand, const string& model, float rentPerDay,int numDoors, int seatingCapacity): Vehicle("Car", brand, model, rentPerDay),numDoors(numDoors), seatingCapacity(seatingCapacity) {
-}
-
-int Car::getNumDoors() const { 
-    return numDoors;
-}
-int Car::getSeatingCapacity() const { 
-    return seatingCapacity;
+Car::Car(const std::string& brand, const std::string& model, float rentPerDay,
+    int doors, int seats)
+    : Vehicle("Car", brand, model, rentPerDay),
+    numDoors(doors), seatingCapacity(seats)
+{
 }
 
-void Car::saveSpecific(ostream& os) const {
+void Car::saveSpecific(std::ostream& os) const
+{
     os << numDoors << '\n' << seatingCapacity << '\n';
 }

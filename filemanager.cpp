@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "filemanager.h"
 #include "vehicle.h"
 #include "car.h"

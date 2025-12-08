@@ -1,4 +1,4 @@
-#include "login.h"
+﻿#include "login.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -6,57 +6,50 @@
 using namespace std;
 
 
-int LoginSystem::validateCredentials(const string& username, const string& password)
+// LoginSystem.cpp (ONLY this function needs to be fixed)
+int LoginSystem::validateCredentials(const std::string& username, const std::string& password)
 {
-    ifstream file("admins.txt");
+    std::ifstream file("admins.txt");
 
+    // If file doesn't exist → create default admin and auto-login if credentials match
     if (!file.is_open())
     {
-        ofstream out("admins.txt");
-        if (out.is_open())
-        {
-            out << "1,admin,admin\n";  // adminId=1, username=admin, password=admin
-            out.close();
+        std::ofstream out("admins.txt");
+        out << "1,admin,admin\n";
+        out.close();
 
-            if (username == "admin" && password == "admin")
-            {
-                loggedInAdminId = 1;
-                return 1;
-            }
+        if (username == "admin" && password == "admin")
+        {
+            loggedInAdminId = 1;
+            return 1;
         }
         loggedInAdminId = -1;
         return -1;
     }
 
-    string line;
+    std::string line;
     while (std::getline(file, line))
     {
         if (line.empty()) continue;
 
-        istringstream iss(line);
-        string token;
+        std::istringstream iss(line);
+        std::string idStr, storedUser, storedPass;
 
-        // Format: adminId,username,password
-        if (!getline(iss, token, ',')) continue;
-        int id = std::stoi(token);
+        // Correct order:
+        std::getline(iss, idStr, ',');      // adminId
+        std::getline(iss, storedUser, ','); // username
+        std::getline(iss, storedPass);      // password (rest of line)
 
-        if (getline(iss, token, ',')) continue;
-        string storedUsername = token;
-
-        if (getline(iss, token)) continue;
-        string storedPassword = token;
-
-        if (storedUsername == username && storedPassword == password)
+        if (storedUser == username && storedPass == password)
         {
-            loggedInAdminId = id;
-            return id;
+            loggedInAdminId = std::stoi(idStr);
+            return loggedInAdminId;
         }
     }
 
     loggedInAdminId = -1;
     return -1;
 }
-
 int LoginSystem::getLoggedInAdminId() const
 {
     return loggedInAdminId;

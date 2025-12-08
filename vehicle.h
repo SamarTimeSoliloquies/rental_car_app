@@ -1,36 +1,38 @@
-#ifndef vehicle_h
-#define veicle_h
-#include<iostream>
+// Vehicle.h
+#pragma once
 #include <string>
-#include <fstream>
-using namespace std;
-class FileManager;
+#include <ostream>
+
 class Vehicle {
 private:
-    int vehicleId;
-    string type;
-    string brand;
-    string model;
-    float rentPerDay;
-    bool isAvailable;
+    int vehicleId = 0;
+    std::string type;
+    std::string brand;
+    std::string model;
+    float rentPerDay = 0.0f;
+    bool isAvailable = true;
     static int nextId;
-    friend class FileManager;
+
+    friend class FileManager;  // needed for nextId access
+
 public:
-    Vehicle();
-    Vehicle(const string& t, const string& b, const string& m, float r);
+    static int generateNextId();  // returns nextId and increments
+
+    Vehicle(const std::string& t, const std::string& b, const std::string& m, float r);
     virtual ~Vehicle() = default;
 
-    int getVehicleId() const;
-    const string& getType() const;
-    const string& getBrand() const;
-    const string& getModel() const;
-    float getRentPerDay() const;
-    bool getAvailability() const;
-    void setAvailability(bool status);
-    static int generateNextId();
-    void setVehicleId(int id);
+    // Getters
+    int getVehicleId() const { return vehicleId; }
+    const std::string& getType() const { return type; }
+    const std::string& getBrand() const { return brand; }
+    const std::string& getModel() const { return model; }
+    float getRentPerDay() const { return rentPerDay; }
+    bool getAvailability() const { return isAvailable; }
 
-    virtual void saveSpecific(ostream& os) const = 0;
-    static int getNextId() { return nextId++; }
+    // Setters
+    void setVehicleId(int id) { vehicleId = id; }
+    void setAvailability(bool status) { isAvailable = status; }
+
+    // Pure virtual - forces override in derived classes
+    virtual void saveSpecific(std::ostream& os) const = 0;
 };
-#endif

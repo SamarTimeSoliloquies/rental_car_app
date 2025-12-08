@@ -1,4 +1,4 @@
-#include "Customer.h"
+﻿#include "Customer.h"
 #include "FileManager.h"
 #include "Vehicle.h"
 #include "rental.h"
@@ -7,10 +7,10 @@
 #include <fstream>
 #include <vector>
 #include <string>
-
 using namespace std;
 
 int Customer::nextCustomerId = 1;
+
 
 Customer::Customer(const string& name, int age,
     const string& cnic, const string& phone,
@@ -21,6 +21,7 @@ Customer::Customer(const string& name, int age,
     saveNextId();
 }
 
+
 void Customer::loadNextId()
 {
     ifstream in("next_customer_id.txt");
@@ -28,8 +29,10 @@ void Customer::loadNextId()
     {
         in >> nextCustomerId;
         in.close();
+       
         if (nextCustomerId < 1) nextCustomerId = 1;
     }
+   
 }
 
 void Customer::saveNextId()
@@ -42,18 +45,20 @@ void Customer::saveNextId()
     }
 }
 
+
 void Customer::viewProfile() const
 {
     cout << "\n=== CUSTOMER PROFILE ===\n";
     cout << "Customer ID : " << customerId << "\n";
-    displayInfo();
+    displayInfo();   
     cout << "\n";
 }
+
 
 void Customer::viewRentedVehicles() const
 {
     auto records = FileManager::loadRentalRecords();
-    auto vehicles = FileManager::loadVehicles();
+    auto vehicles = FileManager::loadVehicles();  
 
     bool foundAny = false;
 
@@ -71,7 +76,7 @@ void Customer::viewRentedVehicles() const
             {
                 if (v->getVehicleId() == r.getVehicleId())
                 {
-                    cout << v->getType() << " "
+                   cout << v->getType() << " "
                         << v->getBrand() << " "
                         << v->getModel() << " | "
                         << r.getRentDays() << " days | "
@@ -87,9 +92,9 @@ void Customer::viewRentedVehicles() const
     }
 
     if (!foundAny)
-        cout << "No vehicles currently rented.\n";
+          cout << "No vehicles currently rented.\n";
 
-    cout << "------------------------------------------------------------\n";
+          cout << "------------------------------------------------------------\n";
 
     for (auto v : vehicles)
         delete v;
